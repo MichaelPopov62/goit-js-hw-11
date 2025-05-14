@@ -44,7 +44,7 @@ img {
 .form {
   display: flex;
   align-items: center;
-  margin: auto;
+  margin:36px auto;
   width: 371px;
   height: 40px;
 }
