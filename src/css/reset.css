@@ -84,8 +84,11 @@ input::placeholder {
   /* Зовнішні відступи */
   justify-content: center;
   /* Центруємо елементи по горизонталі */
-}
 
+/* max-width: 1200px; */
+    justify-content: center;
+  
+       }
 /* Елемент галереї */
 .gallery-item {
   flex: 0 0 calc((100% - 64px) / 5);
@@ -124,4 +127,43 @@ input::placeholder {
   /* Розмір тексту */
   color: #333;
   /* Колір тексту */
+}
+.loader-container {
+  display: none;
+  /* за замовчуванням сховано */
+  position: fixed;
+  inset: 0;
+  background-color:rgba(53, 71, 177, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Коли додаємо клас loading до body, показуємо лоадер */
+body.loading .loader-container {
+  display: flex;
+}
+
+/* Анімація самого спінера */
+.loader {
+  border: 8px solid #f3f3f3;
+  /* світло-сірий фон */
+  border-top: 8px solid #3498db !important;
+  /* синій колір обертання */
+  border-radius: 50%;
+  width: 280px !important;
+  height: 280px !important;
+  animation: spin 0.7s linear infinite;
+  box-shadow: 0 0 25px 10px #3498db;
+    /* світіння */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
