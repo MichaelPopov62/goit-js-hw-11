@@ -1,92 +1,122 @@
-// //напиши всю логіку роботи додатка
 
-// //Виклики нотифікацій iziToast, усі перевірки на довжину масиву в отриманій відповіді робимо саме в цьому файлі.
 
-// //Імпортуй в нього функції із файлів pixabay-api.js та render-functions.js та викликай їх у відповідний момент.
-console.log('ghhjj');
-import { getImagesByQuery } from './js/pixabay-api.js';
-import {
+/* Імпортую функції з інших файлів для роботи із запитами та створення і показу галереі
+ Цей імпорт дозволяє використовувати функцію для запитів до API Pixabay*/
+  import { getImagesByQuery } from './js/pixabay-api.js'; 
+  import {
   createGallery,
   clearGallery,
   showLoader,
   hideLoader,
-} from './js/render-functions.js';
+  } from './js/render-functions.js';
 
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+// Імпортую бібліотеку для повідомлення
+  import iziToast from 'izitoast';
+  import 'izitoast/dist/css/iziToast.min.css';
 
-const form = document.querySelector('.form');
-const input = form.querySelector('input[name="search-text"]');
+// Знаходжу елементи форми та поля вводу
+  const form = document.querySelector('.form'); // елемент форми за класом "form"
+  const input = form.querySelector('input[name="search-text"]'); //поле вводу тексту за ім'ям "search-text"
 
-console.log('main.js завантажено.'); // Перевіряємо, що файл підключено
+// перевірка підключення main.js
+  console.log('main.js завантажено.');
 
-// Очікуємо завантаження DOM
+/* Чекаю завантаження DOM
+ Ця подія гарантує, що весь HTML завантажено перед виконанням скриптів*/
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOMContentLoaded: DOM повністю завантажений.');
 });
 
-form.addEventListener('submit', async event => {
+/* Додаю обробник події на відправку форми
+ Цей обробник викликається кожного разу, коли користувач натискає кнопку відправлення форми. Його основна мета — виконати пошук зображень, базуючись на введеному тексті.*/
+  form.addEventListener('submit', event => {
+
+//Запобігаю перезавантаженню сторінки за замовчуванням при сабміті форми
   event.preventDefault();
 
-  console.log('Форма відправлена.'); // Перевіряємо подію submit
-  
+// перевірка події submit
+  console.log('Форма відправлена.');
 
-  const query = input.value.trim();
+// Отримую та очищую введений текст
+  const query = input.value.trim(); // Вилучаю зайві пробіли з обох боків введеного тексту
 
-  console.log('Пошуковий запит:', query); // Перевіряємо, що отримуємо введене значення
+//перевірка отриманого значення
+  console.log('Пошуковий запит:', query);
 
-  if (!query) {
+// Перевіряю, чи поле введення не порожнє
+    if (!query) {
+    
+// Показую помилку користувачеві через повідомлення
     iziToast.error({
       title: 'Помилка',
       message: 'Будь ласка, введіть пошуковий запит.',
       position: 'topRight',
     });
 
-    console.log('Пошуковий запит порожній.'); // Перевіряємо на порожній запит
-    return;
+  console.log('Пошуковий запит порожній.'); //підтверджую що запит порожній
+  return; // Завершую виконання функції
   }
 
-  clearGallery();
-  showLoader();
+// Очищую галерею та показуємо лоадер
+  clearGallery(); // Видаляю попередні результати пошуку
+  showLoader(); // Відображаю анімацію завантаження
 
-  try {
-    console.log('Перед викликом getImagesByQuery з запитом:', query);
-    const data = await getImagesByQuery(query);
-    console.log('Після виклику getImagesByQuery. Отримано дані:', data);
-    if (!data.hits || data.hits.length === 0) {
-      iziToast.info({
-        title: 'Нічого не знайдено',
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
+// Виконую запит до API та обробляю результати
+    getImagesByQuery(query)
+//обробляю успішний результат    
+    .then(data => {
+      console.log('Після виклику getImagesByQuery. Отримано дані:', data); // підтвержую отримання відповіді від API
+
+// Перевіряю, чи є результати у відповіді
+  if (!data.hits || data.hits.length === 0) {
+
+ /*Я перевіряю, чи існує масив "hits" у відповіді API та чи містить він хоча б один елемент.
+ Якщо масив "hits" відсутній або порожній, це означає, що результатів пошуку немає.
+ У цьому випадку я показуємо відповідну інфориацію користувачеві через повідомлнення.Назву масива я отримую з публічного сервіса API Pixabay коли роблю запит*/
+        iziToast.info({
+          title: 'Нічого не знайдено',
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+        });
+
+  console.log('Масив hits порожній або не існує.'); // підтвердження відсутності результатів
+  return; // Завершую виконання функції
+      }
+
+// Створюю галерею з отриманих даних
+  createGallery(data.hits); // Використовую отриманий масив зображень для створення галереї
+
+//Виводжу інформацію  про створення галереї
+  console.log('Галерея створена. Кількість зображень:', data.hits.length);
+
+// Відображаю успішне повідомлення
+      iziToast.success({
+        title: 'Успіх',
+        message: `Знайдено ${data.hits.length} зображень.`,
+        position: 'topRight',
+        timeout: 3000,
+      });
+    })
+ //обробляю помилку     
+    .catch(error => {
+    
+// Відображаю повідомлення про помилку
+      iziToast.error({
+        title: 'Помилка',
+        message: 'Не вдалося завантажити зображення. Спробуйте пізніше.',
         position: 'topRight',
       });
 
-      console.log('Масив hits порожній або не існує.'); // Лог про порожній результат
-      return;
-      return;
-    }
+// відображаю  помилку
+      console.error(error);
+    })
+    .finally(() => {
+// Ховаю лоадер та очищую поле вводу
+      hideLoader(); // Приховую анімацію завантаження
+      input.value = ''; // Очищаю текстове поле
 
-    createGallery(data.hits);
-
-    console.log('Галерея створена. Кількість зображень:', data.hits.length); // Лог про створення галереї
-
-    iziToast.success({
-      title: 'Успіх',
-      message: `Знайдено ${data.hits.length} зображень.`,
-      position: 'topRight',
-      timeout: 3000,
+// Лог завершення операції
+      console.log('Лоадер схований, поле введення очищене.');
     });
-  } catch (error) {
-    iziToast.error({
-      title: 'Помилка',
-      message: 'Не вдалося завантажити зображення. Спробуйте пізніше.',
-      position: 'topRight',
-    });
-    console.error(error);
-  } finally {
-    hideLoader();
-    input.value = ''; // очищаємо поле вводу після пошуку
-
-    console.log('Лоадер схований, поле введення очищене.'); // Лог завершення операції
-  }
 });

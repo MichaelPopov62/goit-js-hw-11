@@ -1,36 +1,47 @@
-// //Ця функція повинна приймати один параметр query (пошукове слово, яке є рядком), здійснювати HTTP-запит і повертати значення властивості data з отриманої відповіді.
 
-// // getImagesByQuery(query);
 
-import axios from 'axios';
+// Імпортую бібліотеку для HTTP-запитів
+  import axios from 'axios';
 
-const API_KEY = '50290691-d51719558e36c91c48babc26d'; ; // Встав свій API ключ сюди
-const BASE_URL = 'https://pixabay.com/api/';
+//Створюю константи для роботи з API Pixabay
+  const API_KEY = '50290691-d51719558e36c91c48babc26d'; // Мій унікальний  API-ключ сервісу Pexibay
+  const BASE_URL = 'https://pixabay.com/api/'; // Базова URL-адреса для запитів
 
-export async function getImagesByQuery(query) {
+/* Лог для перевірки, що константи ініціалізовані правильно
+console.log('Константи для роботи з API ініціалізовані:');
+console.log('API_KEY:', API_KEY); // Перевірка значення API-ключа
+console.log('BASE_URL:', BASE_URL); // Перевірка значення базової URL-адреси*/
+
+// Функція для отримання зображень за пошуковим запитом
+  export function getImagesByQuery(query) {
+// перевірка отриманого параметра функції
+  console.log('Виклик функції getImagesByQuery із запитом:', query);
+
+  // Створюю змінну де кладу параметри запиту, які будуть передані у URL.Використовуючи цю змінну, я передаю параметри у функцію axios.get, яка додає їх до запиту в форматі URL-параметрів (query string).
   const params = {
-    key: API_KEY,
-    q: query,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: true,
-    per_page: 40, // максимальна кількість результатів за запитом
+    key: API_KEY, // Мій ключ для автентифікації
+    q: query, // Пошукове слово, що користувач ввів в пошукове поле
+    image_type: 'photo', // фільтрую лише зображення
+    orientation: 'horizontal', // Орієнтація зображень-горізогтальна
+    safesearch: true, // Фільтр для безпечного пошуку
+    per_page: 40, // Максимальна кількість результатів за запитом
   };
-  try {
-    const response = await axios.get(BASE_URL, { params });
-    return response.data;
-    console.log(data);
-  } catch (error) {
-    throw error;
-  }
+ //  перевіряю параметри запитуу створеному об'єкті
+  console.log('Параметри запиту сформовані:', params);
+
+// Виконуємо GET-запит.Ця функція повертає Promise, який вирішується в об'єкт із даними від API
+//Цей рядок виконує HTTP-запит за допомогою бібліотеки axios. Він повертає проміс, який буде вирішений після завершення запиту.
+  return (
+    axios
+      .get(BASE_URL, { params }) // GET-запит на сервер з базовою URL і параметрами
+
+//Успішний результат (об'єкт відповіді) обробляється в цьому блоці. Використовується стрілкова функція, щоб повернути лише дані відповіді (response.data).
+  .then(response => response.data)
+      
+//У разі помилки в процесі запиту вона передається далі за допомогою throw error;. Це дозволяє обробити помилку в обробнику catch() у місці виклику цієї функції.
+  .catch(error => {
+        
+ throw error;
+      })
+  );
 }
-
-//   const response = await fetch(url.toString());
-//   if (!response.ok) {
-//     throw new Error(`HTTP error! Status: ${response.status}`);
-//   }
-//   const data = await response.json();
-
-//   // Повертаємо поле data (в Pixabay API - це вся відповідь)
-//   return data;
-// }

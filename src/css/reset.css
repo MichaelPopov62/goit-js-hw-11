@@ -41,10 +41,23 @@ img {
   height: auto;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  /* вертикальний напрямок */
+  align-items: center;
+  /* центрування по горизонталі */
+  background: #b1c5f4;
+  min-height: 100vh;
+  /* щоб тягнулося на всю висоту */
+  padding-top: 30px;
+  /* необов’язково: відступ зверху */
+}
+
 .form {
   display: flex;
   align-items: center;
-  margin:36px auto;
+  margin: 36px auto;
   width: 371px;
   height: 40px;
 }
@@ -68,102 +81,103 @@ input::placeholder {
   letter-spacing: 0.04em;
   color: #808080;
 
-}/* Галерея */
+}
+
+/* Галерея */
 .gallery {
   display: flex;
-  /* Використовуємо Flexbox */
   flex-wrap: wrap;
-  /* Додаємо перенесення, щоб зображення переходили на новий рядок */
   gap: 16px;
-  /* Відступи між елементами */
   list-style: none;
-  /* Забираємо маркери списку */
   padding: 0;
-  /* Внутрішні відступи */
   margin: 0;
-  /* Зовнішні відступи */
   justify-content: center;
-  /* Центруємо елементи по горизонталі */
+  justify-content: center;
+}
 
-/* max-width: 1200px; */
-    justify-content: center;
-  
-       }
 /* Елемент галереї */
 .gallery-item {
   flex: 0 0 calc((100% - 64px) / 5);
-  /* Ширина кожного елемента (5 у рядку з урахуванням відступів) */
   max-width: calc((100% - 64px) / 5);
-  /* Додаємо максимальну ширину для контролю */
   border: 2px solid #e0e0e0;
-  /* Рамка для елементів */
   border-radius: 8px;
-  /* Закруглені кути */
   overflow: hidden;
-  /* Обрізаємо зайве */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  /* Тінь */
   background-color: #fff;
-  /* Білий фон */
 }
 
 /* Зображення в галереї */
 .gallery-item img {
   width: 100%;
-  /* Зображення займає всю ширину контейнера */
   height: 200px;
-  /* Фіксована висота для всіх зображень */
   object-fit: cover;
-  /* Зображення масштабується без викривлень */
   display: block;
-  /* Для коректного відображення */
 }
 
 /* Інформація під зображенням */
 .gallery-item .info {
   padding: 8px;
-  /* Внутрішні відступи */
   font-size: 14px;
-  /* Розмір тексту */
   color: #333;
-  /* Колір тексту */
-}
-.loader-container {
-  display: none;
-  /* за замовчуванням сховано */
-  position: fixed;
-  inset: 0;
-  background-color:rgba(53, 71, 177, 0.7);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
 }
 
-/* Коли додаємо клас loading до body, показуємо лоадер */
-body.loading .loader-container {
-  display: flex;
-}
-
-/* Анімація самого спінера */
+/*індікатр завантаження*/
 .loader {
-  border: 8px solid #f3f3f3;
-  /* світло-сірий фон */
-  border-top: 8px solid #3498db !important;
-  /* синій колір обертання */
-  border-radius: 50%;
-  width: 280px !important;
-  height: 280px !important;
-  animation: spin 0.7s linear infinite;
-  box-shadow: 0 0 25px 10px #3498db;
-    /* світіння */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 6rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
-@keyframes spin {
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  animation: pulsOut 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 1rem rgba(255, 255, 255, 0.75));
+}
+
+.loader:before {
+  width: 100%;
+  padding-bottom: 100%;
+  box-shadow: inset 0 0 0 1rem #fff;
+  animation-name: pulsIn;
+}
+
+.loader:after {
+  width: calc(100% - 2rem);
+  padding-bottom: calc(100% - 2rem);
+  box-shadow: 0 0 0 0 #fff;
+}
+
+@keyframes pulsIn {
   0% {
-    transform: rotate(0deg);
+    box-shadow: inset 0 0 0 1rem #fff;
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    box-shadow: inset 0 0 0 0 #fff;
+    opacity: 0;
+  }
+}
+
+@keyframes pulsOut {
+
+  0%,
+  50% {
+    box-shadow: 0 0 0 0 #fff;
+    opacity: 0;
   }
 
   100% {
-    transform: rotate(360deg);
+    box-shadow: 0 0 0 1rem #fff;
+    opacity: 1;
   }
 }
