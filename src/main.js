@@ -1,7 +1,7 @@
 /*Призначення: Основна логіка програми, яка пов'язує всі частини разом.
 
 Функція та дії:
- 1.функція getImagesByQuery(query) для отримання даних із API Pixabay (імпортована з api.js).
+ 1.функція getImagesByQuery(query) для отримання даних із API Pixabay (імпортована з pixabay-api.js)
   -Викликає функції з render-functions.js :
   -clearGallery(): Очищає галерею перед новим пошуком.
   -createGallery(images): Відображає нові зображення на сторінці.
