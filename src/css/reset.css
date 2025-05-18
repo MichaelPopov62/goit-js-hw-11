@@ -122,62 +122,102 @@ input::placeholder {
 }
 
 /*індікатр завантаження*/
-.loader {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 6rem;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
+/* .loader {
+  position: fixed;/*relative*/
+  /* display: flex; */
+  /* top:50%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
+    /* Корекція для ідеального центру */
+  /* align-items: center;
+  justify-content: center; */
+  /* height: 6rem; */
+  /* max-width: 6rem; */
+  /* margin-top: 3rem;
+  margin-bottom: 3rem; */
+  /* border: 8px solid rgba(0, 0, 0, 0.2); */
+    /* Товщина та колір зовнішнього кільця */
+    /* border-top-color: #4e75ff; */
+    /* Верхній сегмент синього кольору */
+    /* border-radius: 100%; */
+    /* Робимо елемент круглим */
+    /* animation: spin 1s linear infinite; */
+    /* Анімація обертання */
+  /* display: none; */
+  /* border-radius: 50%; */
+  /* background-color:rgba(0, 0, 0, 0.1); */
+    /* напівпрозорий фон, щоб бачити блок */
+    /* z-index: 999; */
+/* }
 
 .loader:before,
 .loader:after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  animation: pulsOut 1.8s ease-in-out infinite;
-  filter: drop-shadow(0 0 1rem rgba(255, 255, 255, 0.75));
-}
+  content: ""; */
+  /* position: absolute;
+  border-radius: 50%; */
+  /* animation: pulsOut 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 1rem rgba(0, 0, 0, 0.5));
+} */
 
-.loader:before {
+/* .loader:before {
   width: 100%;
   padding-bottom: 100%;
-  box-shadow: inset 0 0 0 1rem #fff;
+  box-shadow: inset 0 0 0 1rem rgb(16, 15, 15);
   animation-name: pulsIn;
-}
+  
+} */
 
-.loader:after {
+/* .loader:after {
   width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
   padding-bottom: calc(100% - 2rem);
-  box-shadow: 0 0 0 0 #fff;
-}
-
+  box-shadow: 0 0 0 0 #000;
+} */
+/* 
 @keyframes pulsIn {
   0% {
-    box-shadow: inset 0 0 0 1rem #fff;
+    box-shadow: inset 0 0 0 1rem #000;
     opacity: 1;
   }
 
   50%,
   100% {
-    box-shadow: inset 0 0 0 0 #fff;
+    box-shadow: inset 0 0 0 0 #000;
     opacity: 0;
   }
-}
-
-@keyframes pulsOut {
+} */
+/* 
+ @keyframes pulsOut {
 
   0%,
   50% {
-    box-shadow: 0 0 0 0 #fff;
+    box-shadow: 0 0 0 0 #000;
     opacity: 0;
   }
 
   100% {
-    box-shadow: 0 0 0 1rem #fff;
+    box-shadow: 0 0 0 1rem #000;
     opacity: 1;
-  }
-}
+  } 
+ }  */ 
+ .loader {
+  
+   width: 48px;
+   height: 48px;
+   border: 5px solid #FFF;
+   border-bottom-color: #FF3D00;
+   border-radius: 50%;
+   display: none;
+   box-sizing: border-box;
+   animation: rotation 1s linear infinite;
+ }
+
+ @keyframes rotation {
+   0% {
+     transform: rotate(0deg);
+   }
+
+   100% {
+     transform: rotate(360deg);
+   }
+ }
